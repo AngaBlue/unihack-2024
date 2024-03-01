@@ -1,0 +1,11 @@
+{
+    "name": "@unihack/tsconfig",
+    "version": "0.0.0",
+    "private": true,
+    "main": "index.js",
+    "files": [
+        "tsconfig.base.json",
+        "node.json",
+        "next.json"
+    ]
+}

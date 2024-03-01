@@ -1,0 +1,22 @@
+{
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "compilerOptions": {
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "newLine": "lf",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "useUnknownInCatchVariables": true,
+        "isolatedModules": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "strictPropertyInitialization": false,
+        "paths": {
+            "@api/*": ["../../apps/api/src/*"],
+            "@web/*": ["../../apps/web/*"]
+          }
+    }
+}
