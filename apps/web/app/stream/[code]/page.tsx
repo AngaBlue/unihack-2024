@@ -1,3 +1,5 @@
+'use client';
+
 import { io } from 'socket.io-client';
 import { useEffect } from 'react';
 
@@ -31,7 +33,7 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
             socket.off('connect');
             socket.disconnect();
         };
-    }, []);
+    }, [code]);
 
     return (
         <div>
