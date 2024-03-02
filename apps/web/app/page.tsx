@@ -28,10 +28,11 @@ export default function Page() {
                             InstructAR revolutionizes interaction between virtual and physical realms. Our platform streams live camera
                             feeds directly to a website, where users can engage in real-time. With a simple click, users on the website can
                             place interactive indicators on the stream. These markers then seamlessly appear in the user&apos;s VR
-                            passthrough feed, overlayed via augmented reality. This integration allows for an unprecedented level of
-                            collaboration and interaction, enabling users to guide, instruct, or interact with the physical environment from
-                            a remote location. Whether for educational purposes, remote assistance, or interactive presentations, InstructAR
-                            brings a new dimension to live streaming and augmented reality.
+                            passthrough feed, overlayed via augmented reality. <br />
+                            This integration allows for an unprecedented level of collaboration and interaction, enabling users to guide,
+                            instruct, or interact with the physical environment from a remote location. Whether for educational purposes,
+                            remote assistance, or interactive presentations, InstructAR brings a new dimension to live streaming and
+                            augmented reality.
                         </p>
                     </div>
                 </div>
