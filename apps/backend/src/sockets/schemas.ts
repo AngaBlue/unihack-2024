@@ -14,7 +14,7 @@ export interface ClientToServerEvents {
     identify: (type: IdentityType) => void;
     
     // 3. Capture uploads frames to backend
-    newFrame: (session: string, frameId: number, framePayload: Buffer)
+    newFrame: (token: string, frameId: number, framePayload: Buffer, compressed: boolean) => void;
 
 }
 
