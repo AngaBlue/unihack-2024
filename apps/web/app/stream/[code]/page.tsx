@@ -3,7 +3,7 @@
 import { io } from 'socket.io-client';
 import { useEffect, useState } from 'react';
 import EmojiButton from '@web/components/EmojiButton';
-import { cn } from '@web/lib/utils';
+import { arrayBufferToBase64, cn } from '@web/lib/utils';
 import { FaSpinner } from 'react-icons/fa6';
 import cursor from '@web/lib/cursor';
 
@@ -15,7 +15,7 @@ interface StreamPageProps {
 
 type Vec3 = [number, number, number];
 interface Frame {
-    image: Buffer;
+    image: string;
     location: Vec3;
     direction: Vec3;
 }
@@ -51,11 +51,11 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
 
         connect();
 
-        socket.on('frame', (image: Buffer, location: Vec3, direction: Vec3) => {
+        socket.on('frame', async (image: Buffer, location: Vec3, direction: Vec3) => {
             console.log('Received frame', image, location, direction);
 
             // Only update the frame if we don't have an emoji selected
-            if (!currentEmoji) setFrame({ image, location, direction });
+            if (!currentEmoji) setFrame({ image: await arrayBufferToBase64(image), location, direction });
         });
 
         // Clean up
@@ -90,21 +90,23 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
                     className='aspect-square w-[80vh] max-w-ful rounded-2xl relative overflow-hidden'
                     style={currentEmoji ? cursor(currentEmoji) : {}}
                 >
-                    {/* Loading background */}
-                    <div className={cn('absolute top-0 left-0 w-full h-full bg-slate-200 flex justify-center items-center')}>
-                        {loading && <FaSpinner className='w-16 h-16 text-primary animate-spin' />}
-                    </div>
                     {/* Image */}
                     {frame && (
                         <>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
-                                src={`data:image/jpg;base64,${frame?.image.toString('base64')}`}
+                                src={`data:image/jpeg;base64,${frame?.image}`}
                                 alt='Stream'
                                 onClick={onFrameClick}
-                                className='h-full w-full'
+                                className='h-full w-full z-10'
                             />
                         </>
+                    )}
+                    {/* Loading background */}
+                    {!frame && (
+                        <div className={cn('absolute top-0 left-0 w-full h-full bg-slate-200 flex justify-center items-center')}>
+                            {loading && <FaSpinner className='w-16 h-16 text-primary animate-spin' />}
+                        </div>
                     )}
                 </div>
                 <span className='text-lg'>
