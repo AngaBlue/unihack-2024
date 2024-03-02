@@ -13,7 +13,7 @@ interface StreamPageProps {
     };
 }
 
-const emojis = ['❗', '⬇️', '✋'];
+const emojis = ['❗', '⬇️', '✋', '🔥'];
 
 export default function StreamPage({ params: { code } }: StreamPageProps) {
     const [loading, setLoading] = useState(true);

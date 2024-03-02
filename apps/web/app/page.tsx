@@ -33,17 +33,6 @@ export default function Page() {
                     </div>
                 </div>
             </section>
-            <section className='w-full py-6 md:py-12 lg:py-16'>
-                <div className='container flex flex-col items-center justify-center px-4 space-y-4 md:px-6'>
-                    <div className='space-y-2 text-center'>
-                        <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl'>AR Interaction</h2>
-                        <p className='max-w-[800px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400'>
-                            Place markers on the livestream and see them appear in your VR passthrough feed in real-time.
-                        </p>
-                    </div>
-                    <div className='mx-auto w-full max-w-prose aspect-video overflow-hidden rounded-xl border'></div>
-                </div>
-            </section>
             <section className='w-full py-6 md:py-12 lg:py-16 border-t' id='enter-steam-code'>
                 <div className='container flex flex-col items-center justify-center space-y-4 px-4 md:px-6'>
                     <div className='space-y-2 text-center'>
@@ -55,6 +44,17 @@ export default function Page() {
                     <div className='mx-auto w-full max-w-[400px] space-y-2'>
                         <EnterCode />
                     </div>
+                </div>
+            </section>
+            <section className='w-full py-6 md:py-12 lg:py-16'>
+                <div className='container flex flex-col items-center justify-center px-4 space-y-4 md:px-6'>
+                    <div className='space-y-2 text-center'>
+                        <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl'>AR Interaction</h2>
+                        <p className='max-w-[800px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400'>
+                            Place markers on the livestream and see them appear in your VR passthrough feed in real-time.
+                        </p>
+                    </div>
+                    <div className='mx-auto w-full max-w-prose aspect-video overflow-hidden rounded-xl border'></div>
                 </div>
             </section>
         </>
