@@ -2,13 +2,16 @@ import json
 import math
 import os
 from statistics import mean
+import threading
 from timeit import default_timer
+from flask import Flask
 from mss import mss
 import pygetwindow as gw
 import pyautogui
 import cv2
 import ffmpeg
 import numpy as np
+import socketio
 
 # Find the window you want to capture
 window_title = "Quest 3"  # Change this to the title of your window
@@ -106,23 +109,62 @@ def load_settings(path: str) -> dict:
 def apply_transformations(frame: np.ndarray, transformations: dict):
     return rotate_image(frame, transformations['rotate'])
 
+current_frame: np.ndarray = None
 
 def main():
+    global current_frame
+
+    settings = load_settings(SETTINGS_PATH)
+
+    def headset_communication_thread():
+        global current_frame
+
+        # Create a socketIO server
+        sio_headset = socketio.Server(async_mode="threading")
+
+        # wrap with a WSGI application
+        app = Flask(__name__)
+        app.wsgi_app = socketio.WSGIApp(sio_headset, app.wsgi_app)
+
+        sio_to_backend = socketio.SimpleClient()
+        sio_to_backend.connect(settings['connection']['backend'])
+
+        # Server (i.e., headset) events
+        @sio_headset.on("location")
+        def on_location(sid, location: tuple[float], direction: tuple[float]):
+            print(f"The SID is: {sid}")
+            payload = cv2.imencode("jpeg", current_frame)
+            sio_to_backend.emit("newFrame", (payload, location, direction))
+            
+        
+        app.run("0.0.0.0", settings['connection']['socket-port'])
+        ################################
+
+    threading.Thread(target=headset_communication_thread).start()
+    
     prev_time = default_timer()
     last_report = default_timer()
     framerates = []
 
     last_settings_load = prev_time
 
-    settings = load_settings(SETTINGS_PATH)
+    
 
     try: window.activate()
     except: pass
 
     while True:
-        frame = capture_window(window, settings['crop'])
-        frame = apply_transformations(frame, settings['transformation'])
-        if frame is not None: cv2.imshow("Ree", frame)
+        current_frame = apply_transformations(
+            capture_window(
+                window,
+                settings['crop']
+            ),
+            
+            settings['transformation']
+        )
+        
+        if current_frame is not None: cv2.imshow("Ree", current_frame)
+        
         curr_time = default_timer()
 
         # Get framerate

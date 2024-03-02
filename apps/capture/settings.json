@@ -1,4 +1,9 @@
 {
+    "connection": {
+        "backend": "",
+        "socket-port": 12345
+    },
+
     "crop": {
         "left": 642,
         "top": 38,
