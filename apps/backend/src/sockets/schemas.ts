@@ -16,6 +16,12 @@ export interface ClientToServerEvents {
     newFrame: (token: string, frameId: number, framePayload: Buffer, compressed: boolean) => void;
 }
 
+export interface InterServerEvents {
+    ping: () => void;
+}
+  
+
 export interface SocketData {
     session: string | null;
+    identity: IdentityType;
 }
