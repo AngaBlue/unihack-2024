@@ -6,6 +6,10 @@
         "bottom": 13
     },
 
+    "transformation": {
+        "rotate": 21
+    },
+
     "timing": {
         "framerate": 1,
         "settings": 3
