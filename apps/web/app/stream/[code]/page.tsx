@@ -57,12 +57,7 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
                     style={currentEmoji ? cursor(currentEmoji) : {}}
                 >
                     {/* Loading background */}
-                    <div
-                        className={cn(
-                            'absolute top-0 left-0 w-full h-full bg-slate-200 flex justify-center items-center',
-                            loading && 'animate-pulse'
-                        )}
-                    >
+                    <div className={cn('absolute top-0 left-0 w-full h-full bg-slate-200 flex justify-center items-center')}>
                         <FaSpinner className='w-16 h-16 text-primary animate-spin' />
                     </div>
                 </div>
