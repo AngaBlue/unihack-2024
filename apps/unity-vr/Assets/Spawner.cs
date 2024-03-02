@@ -33,8 +33,8 @@ public class RaycastFromCamera : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(raycastInterval);
             PerformRaycast();
+            yield return new WaitForSeconds(raycastInterval);
         }
     }
 
