@@ -1,17 +1,10 @@
 // Keep track of all current connections
 
-import { Socket } from "socket.io";
-
-export class InstructarSession {
-    // TODO: expand this to support and differentiate between multiple connections
-    constructor(public established: Date, public viewer: Socket){}
-
-    public frames: Buffer[][] = [];
-    
-}
+import InstructARSession from './InstructARSession';
 
 export class InstructarState {
-    public sessions: Map<string, InstructarSession> = new Map<string, InstructarSession>();
+    public sessions: Map<string, InstructARSession> = new Map<string, InstructARSession>();
 }
 
-export let globalState: InstructarState;
+const state = new InstructarState();
+export default state;

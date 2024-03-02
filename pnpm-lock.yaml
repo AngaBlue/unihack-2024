@@ -24,12 +24,21 @@ importers:
         specifier: ^4.7.4
         version: 4.7.4
     devDependencies:
+      '@angablue/eslint-config':
+        specifier: ^1.4.4
+        version: 1.4.4(@types/eslint@8.56.1)(eslint@8.56.0)(prettier@3.2.5)
       '@types/express':
         specifier: ^4.17.21
         version: 4.17.21
       '@types/node':
         specifier: ^20.10.6
         version: 20.10.6
+      eslint:
+        specifier: ^8.56.0
+        version: 8.56.0
+      prettier:
+        specifier: ^3.2.5
+        version: 3.2.5
       typescript:
         specifier: ^5.3.3
         version: 5.3.3
@@ -1674,6 +1683,7 @@ packages:
   /eslint@8.56.0:
     resolution: {integrity: sha512-Go19xM6T9puCOWntie1/P997aXxFsOi37JIHRWI514Hc6ZnaHGKY9xFhrU65RT6CcBEzZoGG1e6Nq+DT04ZtZQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    hasBin: true
     dependencies:
       '@eslint-community/eslint-utils': 4.4.0(eslint@8.56.0)
       '@eslint-community/regexpp': 4.10.0
