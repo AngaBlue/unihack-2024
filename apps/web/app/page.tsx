@@ -1,14 +1,13 @@
 import Link from 'next/link';
 import { Input } from '@web/components/ui/input';
 import { Button } from '@web/components/ui/button';
-import { SVGProps } from 'react';
 
 export default function Page() {
     return (
         <div className='flex flex-col min-h-[100dvh]'>
             <header className='px-4 lg:px-6 h-14 flex items-center'>
                 <Link className='flex items-center justify-center' href='#'>
-                    <MountainIcon className='h-6 w-6' />
+                    {/* <MountainIcon className='h-6 w-6' /> */}
                     <span className='sr-only'>InstructAR</span>
                 </Link>
                 <nav className='ml-auto flex gap-4 sm:gap-6'>
@@ -50,7 +49,7 @@ export default function Page() {
                             <p className='max-w-[800px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400'>
                                 InstructAR revolutionizes interaction between virtual and physical realms. Our platform streams live camera
                                 feeds directly to a website, where users can engage in real-time. With a simple click, users on the website
-                                can place interactive indicators on the stream. These markers then seamlessly appear in the user's VR
+                                can place interactive indicators on the stream. These markers then seamlessly appear in the user&apos;s VR
                                 passthrough feed, overlayed via augmented reality. This integration allows for an unprecedented level of
                                 collaboration and interaction, enabling users to guide, instruct, or interact with the physical environment
                                 from a remote location. Whether for educational purposes, remote assistance, or interactive presentations,
@@ -107,24 +106,5 @@ export default function Page() {
                 </nav>
             </footer>
         </div>
-    );
-}
-
-function MountainIcon(props: SVGProps<SVGSVGElement>) {
-    return (
-        <svg
-            {...props}
-            xmlns='http://www.w3.org/2000/svg'
-            width='24'
-            height='24'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-        >
-            <path d='m8 3 4 8 5-5 5 15H2L8 3z' />
-        </svg>
     );
 }
