@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import EmojiButton from '@web/components/EmojiButton';
 import { cn } from '@web/lib/utils';
 import { FaSpinner } from 'react-icons/fa6';
+import cursor from '@web/lib/cursor';
 
 interface StreamPageProps {
     params: {
@@ -16,6 +17,7 @@ const emojis = ['❗', '⬇️', '✋'];
 
 export default function StreamPage({ params: { code } }: StreamPageProps) {
     const [loading, setLoading] = useState(true);
+    const [currentEmoji, setCurrentEmoji] = useState('');
 
     useEffect(() => {
         console.log('Connecting to socket');
@@ -43,10 +45,17 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
         };
     }, [code]);
 
+    function clickEmoji(emoji: string) {
+        setCurrentEmoji(emoji);
+    }
+
     return (
         <div className='flex justify-center items-center p-6 gap-8'>
             <div className='flex flex-col gap-4'>
-                <div className='aspect-square w-[80vh] max-w-ful rounded-2xl relative overflow-hidden'>
+                <div
+                    className='aspect-square w-[80vh] max-w-ful rounded-2xl relative overflow-hidden'
+                    style={currentEmoji ? cursor(currentEmoji) : {}}
+                >
                     {/* Loading background */}
                     <div
                         className={cn(
@@ -63,7 +72,7 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
             </div>
             <div className='flex space-between flex-col gap-4'>
                 {emojis.map(emoji => (
-                    <EmojiButton key={emoji} emoji={emoji}>
+                    <EmojiButton key={emoji} emoji={emoji} onClick={() => clickEmoji(emoji)} isActive={currentEmoji === emoji}>
                         {emoji}
                     </EmojiButton>
                 ))}
