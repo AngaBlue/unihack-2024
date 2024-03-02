@@ -90,22 +90,22 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
                     className='aspect-square w-[80vh] max-w-ful rounded-2xl relative overflow-hidden'
                     style={currentEmoji ? cursor(currentEmoji) : {}}
                 >
-                    {/* Image */}
-                    {/* {frame && ( */}
-                    <>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                            src={`data:image/jpg;base64,${frame?.image.toString('base64')}`}
-                            alt='Stream'
-                            onClick={onFrameClick}
-                            className='h-full w-full'
-                        />
-                    </>
-                    {/* )} */}
                     {/* Loading background */}
                     <div className={cn('absolute top-0 left-0 w-full h-full bg-slate-200 flex justify-center items-center')}>
                         {loading && <FaSpinner className='w-16 h-16 text-primary animate-spin' />}
                     </div>
+                    {/* Image */}
+                    {frame && (
+                        <>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                                src={`data:image/jpg;base64,${frame?.image.toString('base64')}`}
+                                alt='Stream'
+                                onClick={onFrameClick}
+                                className='h-full w-full'
+                            />
+                        </>
+                    )}
                 </div>
                 <span className='text-lg'>
                     <strong>Stream Code:</strong> {code}
