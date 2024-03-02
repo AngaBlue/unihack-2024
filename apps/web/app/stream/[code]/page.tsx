@@ -51,12 +51,6 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
 
         connect();
 
-        socket.on('frame', async (image: Buffer, location: Vec3, direction: Vec3) => {
-            // Only update the frame if we don't have an emoji selected
-            if (currentEmoji) return;
-            setFrame({ image: await arrayBufferToBase64(image), location, direction });
-        });
-
         // Clean up
         return () => {
             if (process.env.NODE_ENV === 'development') return;
@@ -65,6 +59,18 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
             socket.disconnect();
         };
     }, [code]);
+
+    useEffect(() => {
+        socket.on('frame', async (image: Buffer, location: Vec3, direction: Vec3) => {
+            // Only update the frame if we don't have an emoji selected
+            if (currentEmoji) return;
+            setFrame({ image: await arrayBufferToBase64(image), location, direction });
+        });
+
+        return () => {
+            socket.off('frame');
+        };
+    }, [currentEmoji]);
 
     function clickEmoji(emoji: string) {
         setCurrentEmoji(emoji);
