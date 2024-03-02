@@ -1,5 +1,4 @@
-import { Input } from '@web/components/ui/input';
-import { Button } from '@web/components/ui/button';
+import EnterCode from '@web/components/EnterCode';
 
 export default function Page() {
     return (
@@ -53,12 +52,7 @@ export default function Page() {
                         </p>
                     </div>
                     <div className='mx-auto w-full max-w-[400px] space-y-2'>
-                        <form className='grid gap-2'>
-                            <Input className='w-full' placeholder='XXXXXX' type='text' />
-                            <Button className='w-full' type='submit'>
-                                Join Stream
-                            </Button>
-                        </form>
+                        <EnterCode />
                     </div>
                 </div>
             </section>
