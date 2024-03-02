@@ -42,22 +42,25 @@ io.on('connect', socket => {
     console.log('Connected!');
 
     socket.on('identify', type => {
+        console.log(`Identified as ${type}`);
         socket.data.identity = type;
         switch (type) {
-            case 'capture':
+            case 'capture': {
                 console.log('Capture client connected.');
 
                 break;
+            }
 
-            case 'view':
+            case 'view': {
                 console.log('View client connected.');
                 const token: string = globalState.createSession(socket);
 
                 // Send the token back
-                console.log(token)
+                console.log(token);
                 socket.emit('viewerGetSessionToken', token);
 
                 break;
+            }
 
             default:
                 throw new Error(`Identification not supported for type '${type}'`);
