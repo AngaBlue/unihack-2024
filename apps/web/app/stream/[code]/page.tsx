@@ -4,6 +4,7 @@ import { io } from 'socket.io-client';
 import { useEffect, useState } from 'react';
 import EmojiButton from '@web/components/EmojiButton';
 import { cn } from '@web/lib/utils';
+import { FaSpinner } from 'react-icons/fa6';
 
 interface StreamPageProps {
     params: {
@@ -44,10 +45,17 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
 
     return (
         <div className='flex justify-center items-center p-6 gap-8'>
-            <div>
+            <div className='flex flex-col gap-4'>
                 <div className='aspect-square w-[80vh] max-w-ful rounded-2xl relative overflow-hidden'>
                     {/* Loading background */}
-                    <div className={cn('absolute top-0 left-0 w-full h-full bg-slate-200', loading && 'animate-pulse')} />
+                    <div
+                        className={cn(
+                            'absolute top-0 left-0 w-full h-full bg-slate-200 flex justify-center items-center',
+                            loading && 'animate-pulse'
+                        )}
+                    >
+                        <FaSpinner className='w-16 h-16 text-primary animate-spin' />
+                    </div>
                 </div>
                 <span className='text-lg'>
                     <strong>Stream Code:</strong> {code}
