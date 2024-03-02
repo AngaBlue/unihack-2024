@@ -54,6 +54,7 @@ io.on('connect', socket => {
                 const token: string = globalState.createSession(socket);
 
                 // Send the token back
+                console.log(token)
                 socket.emit('viewerGetSessionToken', token);
 
                 break;
