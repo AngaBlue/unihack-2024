@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import Head from 'next/head';
 import Link from 'next/link';
-import Image from 'next/image';
+import Logo from '@web/components/Logo';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -30,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
                 {/* Header */}
                 <header className='px-4 lg:px-6 h-14 flex items-center'>
                     <Link className='flex items-center justify-center' href='/'>
-                        <Image src={require('@web/images/logo.svg')} alt='InstructAR' width={32} height={32} />
+                        <Logo />
                         <span className='font-bold ml-2'>InstructAR</span>
                     </Link>
                     <nav className='ml-auto flex gap-4 sm:gap-6'>

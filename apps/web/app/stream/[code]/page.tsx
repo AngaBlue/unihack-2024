@@ -1,3 +1,5 @@
+import '@web/lib/socket';
+
 interface StreamPageProps {
     params: {
         code: string;
