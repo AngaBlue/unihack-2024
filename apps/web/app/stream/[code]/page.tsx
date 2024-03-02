@@ -35,8 +35,10 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
     useEffect(() => {
         async function connect() {
             // Temp create code
-            socket.emit('identify', 'view');
-            console.log('Identified as view');
+            if (process.env.NODE_ENV === 'development') {
+                socket.emit('identify', 'view');
+                console.log('Identified as view');
+            }
 
             const subscribed = await socket.emitWithAck('subscribe', code);
             if (!subscribed) {
@@ -58,6 +60,7 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
 
         // Clean up
         return () => {
+            if (process.env.NODE_ENV === 'development') return;
             console.log('Disconnecting from socket');
             socket.off('connect');
             socket.disconnect();
