@@ -4,6 +4,7 @@ import './globals.css';
 import Head from 'next/head';
 import Link from 'next/link';
 import Logo from '@web/components/Logo';
+import { cn } from '@web/lib/utils';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,11 +28,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
             </Head>
             {/* Content */}
             <body
-                className={inter.className}
+                className={cn(inter.className, 'animate-dots')}
                 style={{
                     backgroundImage: 'radial-gradient(lightgray 1px, transparent 0)',
-                    backgroundSize: '40px 40px',
-                    backgroundPosition: '20px 20px'
+                    backgroundSize: '40px 40px'
                 }}
             >
                 {/* Header */}
