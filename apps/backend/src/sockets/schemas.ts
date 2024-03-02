@@ -5,7 +5,7 @@ export interface ServerToClientEvents {
     viewerGetSessionToken: (token: string) => void;
 
     displayIndicator: (indicatorId: number, frameId: number, indicatorTypeId: number, screenPoints: number[][]) => void;
-    
+
     frame: (framePayload: Buffer, location: [number, number, number], direction: [number, number, number]) => void;
 }
 
@@ -27,7 +27,6 @@ export interface ClientToServerEvents {
 export interface InterServerEvents {
     ping: () => void;
 }
-  
 
 export interface SocketData {
     session: string | null;

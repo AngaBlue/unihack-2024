@@ -6,12 +6,12 @@ import express, { Express, Request, Response } from 'express';
 import { Server } from 'socket.io';
 
 // Import schemas
-import { ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData } from "./sockets/schemas"
+import dotenv from 'dotenv';
+import { ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData } from './sockets/schemas';
 
 // Import routers
-import { controllerRouter } from "./routes/control"
+import { controllerRouter } from './routes/control';
 
-import dotenv from "dotenv";
 import { InstructarSession, globalState } from './state/state';
 
 dotenv.config();
@@ -26,12 +26,7 @@ const server = require('http').createServer(app, {
     }
 });
 
-const io = new Server<
-  ClientToServerEvents,
-  ServerToClientEvents,
-  InterServerEvents,
-  SocketData
->(server);
+const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(server, { cors: { origin: '*' } });
 
 app.use('/control', controllerRouter);
 
@@ -43,34 +38,33 @@ app.get('/', (req: Request, res: Response) => {
 // ===============
 // SocketIO Handlers
 
+io.on('connect', socket => {
+    console.log('Connected!');
 
-io.on("connect", (socket) => {
-    console.log("Connected!");
-
-    socket.on("identify", (type) => {
+    socket.on('identify', type => {
         socket.data.identity = type;
-        switch(type){
+        switch (type) {
             case 'capture':
-                console.log("Capture client connected.");
+                console.log('Capture client connected.');
 
                 break;
 
             case 'view':
-                console.log("View client connected.")
-                let token: string = globalState.createSession(socket);
+                console.log('View client connected.');
+                const token: string = globalState.createSession(socket);
 
                 // Send the token back
-                socket.emit("viewerGetSessionToken", token);
+                socket.emit('viewerGetSessionToken', token);
 
                 break;
-            
+
             default:
                 throw new Error(`Identification not supported for type '${type}'`);
         }
     });
 
-    socket.on("subscribe", (token: string, callback) => {
-        let session: InstructarSession | null = globalState.retrieveSession(token);
+    socket.on('subscribe', (token: string, callback) => {
+        const session: InstructarSession | null = globalState.retrieveSession(token);
         if (session === null) {
             callback(false);
         } else {
@@ -79,29 +73,25 @@ io.on("connect", (socket) => {
         }
     });
 
-    socket.on("newFrame", (token: string, framePayload: Buffer, location: [number, number, number], direction: [number, number, number])  => {
-        if (socket.data.identity != 'capture') throw new Error(`Received new frame from identity '${socket.data.identity}' - must be 'capture' identity`)
-        
-        let session: InstructarSession | null = globalState.retrieveSession(token);
-        if (session === null) {
-            // Can't do any thing. Return
-            console.log("Warning! New frame was given but the session token wasn't valid")
-            return;
-        } else {
-            // Send to the corresponding room
-            io.to(token).emit("frame", 
-                framePayload,
-                location,
-                direction
-            );
+    socket.on(
+        'newFrame',
+        (token: string, framePayload: Buffer, location: [number, number, number], direction: [number, number, number]) => {
+            if (socket.data.identity !== 'capture')
+                throw new Error(`Received new frame from identity '${socket.data.identity}' - must be 'capture' identity`);
+
+            const session: InstructarSession | null = globalState.retrieveSession(token);
+            if (session === null) {
+                // Can't do any thing. Return
+                console.log("Warning! New frame was given but the session token wasn't valid");
+            } else {
+                // Send to the corresponding room
+                io.to(token).emit('frame', framePayload, location, direction);
+            }
         }
-    });
+    );
 
-    socket.on("disconnect", ()=>console.log("Disconnect"));
+    socket.on('disconnect', () => console.log('Disconnect'));
 });
-
-
-
 
 // ===============
 
