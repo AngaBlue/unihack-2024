@@ -1,0 +1,13 @@
+{
+    "crop": {
+        "left": 642,
+        "top": 38,
+        "right": 13,
+        "bottom": 13
+    },
+
+    "timing": {
+        "framerate": 1,
+        "settings": 3
+    }
+}

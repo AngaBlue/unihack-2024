@@ -1,0 +1,6 @@
+pygetwindow
+pyautogui
+opencv-python
+ffmpeg-python
+numpy
+mss
