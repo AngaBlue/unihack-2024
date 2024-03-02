@@ -63,12 +63,23 @@ io.on("connect", (socket) => {
                 socket.emit("viewerGetSessionToken", token);
 
                 break;
+            
             default:
                 throw new Error(`Identification not supported for type '${type}'`);
         }
     });
 
-    socket.on("newFrame", (token: string, frameId: number, framePayload: Buffer, compressed: boolean) => {
+    socket.on("subscribe", (token: string, callback) => {
+        let session: InstructarSession | null = globalState.retrieveSession(token);
+        if (session === null) {
+            callback(false);
+        } else {
+            socket.join(token);
+            callback(true);
+        }
+    });
+
+    socket.on("newFrame", (token: string, framePayload: Buffer, location: [number, number, number], direction: [number, number, number])  => {
         if (socket.data.identity != 'capture') throw new Error(`Received new frame from identity '${socket.data.identity}' - must be 'capture' identity`)
         
         let session: InstructarSession | null = globalState.retrieveSession(token);
@@ -77,20 +88,13 @@ io.on("connect", (socket) => {
             console.log("Warning! New frame was given but the session token wasn't valid")
             return;
         } else {
-            if (!compressed) {
-                // Do some compression to the payload
-            }
-            
-            // Write the newest frame
-            session.frame = [frameId, framePayload];
-
+            // Send to the corresponding room
+            io.to(token).emit("frame", 
+                framePayload,
+                location,
+                direction
+            );
         }
-
-        
-
-        
-        
-
     });
 
     socket.on("disconnect", ()=>console.log("Disconnect"));
