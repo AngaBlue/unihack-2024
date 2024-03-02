@@ -3,12 +3,18 @@ import EnterCode from '@web/components/EnterCode';
 export default function Page() {
     return (
         <>
-            <section className='w-full py-6 md:py-12 lg:py-16 xl:py-20 animate-in fade-in-0 slide-in-from-top-32 duration-1000'>
-                <div className='container flex items-center justify-between px-4 space-y-4 md:px-6 max-w-6xl'>
+            <section
+                className='w-full py-6 md:py-12 lg:py-16 xl:py-20 animate-in fade-in-0 slide-in-from-top-32 duration-1000 min-h-[calc(100vh-56px)] flex flex-col justify-center'
+                style={{
+                    backgroundImage: 'radial-gradient(lightgray 1px, transparent 0)',
+                    backgroundSize: '40px 40px'
+                }}
+            >
+                <div className='container flex items-center justify-between px-4 space-y-4 md:px-6 max-w-6xl h-full'>
                     <div className='space-y-2 text-left'>
                         <h1 className='text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl'>InstructAR</h1>
                         <p className='max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400'>
-                            Bridge Your Worlds: Stream, Mark, and Transform Reality with InstructAR
+                            Bridge Your Worlds: stream, mark, and transform reality with InstructAR
                         </p>
                     </div>
                     <div className='h-96 max-w-prose overflow-hidden rounded-xl shadow-video'>
