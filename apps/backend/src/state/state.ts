@@ -41,10 +41,6 @@ export class InstructarSession {
     // TODO: expand this to support and differentiate between multiple connections
     constructor(public established: Date, public viewer: Socket){}
 
-    // TODO: provide user with a selection of frames
-    public frame: [number, Buffer] | null = null; 
-    
-    public genFrameId: NextGenerator = new IDGenerator("F");
     public genSessionToken: NextGenerator = new CodeGenerator(5);
 
 }

@@ -1,7 +1,9 @@
 {
-  "extends": "@unihack/tsconfig/node",
+  "#extends": "@unihack/tsconfig/node",
   "compilerOptions": {
     "outDir": "./dist",
-    "typeRoots": ["./node_modules/@types"]
-  }
+    "typeRoots": ["./node_modules/@types"],
+    "esModuleInterop": true
+  },
+  
 }
