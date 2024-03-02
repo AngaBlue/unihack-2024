@@ -6,7 +6,9 @@ using System.Threading;
 
 public class ObjectPlacer : MonoBehaviour
 {
-    public GameObject objectToPlacePrefab;
+    public GameObject exclamationPrefab;
+    public Transform centerEyeAnchor;
+
     private TcpClient client;
     private Thread clientThread;
     private string receivedMessage = "";
@@ -20,31 +22,21 @@ public class ObjectPlacer : MonoBehaviour
         // ConnectToServer();
     }
 
-    private int[,] cornerInputs = new int[5, 2]
-    {
-        { 0, 0 },     // Top-left corner
-        { 100, 0 },   // Top-right corner
-        { 0, 100 },   // Bottom-left corner
-        { 100, 100 }, // Bottom-right corner
-        { 50, 50 }    // Center
-    };
     void Update()
     {
-        for (int i = 0; i < cornerInputs.GetLength(0); i++)
+
+        int horizontalInput = 50; // get from socket
+        int verticalInput = 50; // get from socket
+
+        float horizontalRotation = MapRangeToDegrees(horizontalInput, maxHorizontalRotationDegrees);
+        float verticalRotation = MapRangeToDegrees(verticalInput, maxVerticalRotationDegrees);
+
+        Vector3 rayDirection = CalculateRayDirection(horizontalRotation, verticalRotation);
+        Ray ray = new Ray(transform.position, rayDirection);
+
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            int horizontalInput = cornerInputs[i, 0];
-            int verticalInput = cornerInputs[i, 1];
-
-            float horizontalRotation = MapRangeToDegrees(horizontalInput, maxHorizontalRotationDegrees);
-            float verticalRotation = MapRangeToDegrees(verticalInput, maxVerticalRotationDegrees);
-
-            Vector3 rayDirection = CalculateRayDirection(horizontalRotation, verticalRotation);
-            Ray ray = new Ray(transform.position, rayDirection);
-
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                Instantiate(objectToPlacePrefab, hit.point, Quaternion.identity);
-            }
+            GameObject uiInstance = Instantiate(exclamationPrefab, hit.point, Quaternion.identity);
         }
     }
     
@@ -90,11 +82,6 @@ public class ObjectPlacer : MonoBehaviour
                 }
             }
         }
-    }
-
-    void PlaceObject(Vector3 position)
-    {
-        Instantiate(objectToPlacePrefab, position, Quaternion.identity);
     }
 
     void OnDisable()
