@@ -4,15 +4,16 @@ export default function Page() {
     return (
         <>
             <section className='w-full py-6 md:py-12 lg:py-16 xl:py-20'>
-                <div className='container flex flex-col items-center justify-center px-4 space-y-4 md:px-6'>
-                    <div className='space-y-2 text-center'>
+                <div className='container flex items-center justify-between px-4 space-y-4 md:px-6 max-w-6xl'>
+                    <div className='space-y-2 text-left'>
                         <h1 className='text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl'>InstructAR</h1>
                         <p className='max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400'>
                             Bridge Your Worlds: Stream, Mark, and Transform Reality with InstructAR
                         </p>
                     </div>
-                    <div className='mx-auto w-full max-w-prose aspect-video overflow-hidden rounded-xl shadow-video'>
-                        <div />
+                    <div className='h-96 max-w-prose overflow-hidden rounded-xl shadow-video'>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src='./logo.svg' alt='logo' className='h-full' />
                     </div>
                 </div>
             </section>
