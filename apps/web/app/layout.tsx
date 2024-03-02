@@ -34,11 +34,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
                         <span className='font-bold ml-2'>InstructAR</span>
                     </Link>
                     <nav className='ml-auto flex gap-4 sm:gap-6'>
-                        <Link className='text-sm font-medium hover:underline underline-offset-4' href='#'>
-                            Features
-                        </Link>
-                        <Link className='text-sm font-medium hover:underline underline-offset-4' href='#'>
-                            Pricing
+                        <Link className='text-sm font-medium hover:underline underline-offset-4' href='/#enter-steam-code'>
+                            Enter Stream Code
                         </Link>
                         <Link className='text-sm font-medium hover:underline underline-offset-4' href='#'>
                             About

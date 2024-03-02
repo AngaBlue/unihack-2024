@@ -44,7 +44,7 @@ export default function Page() {
                     <div className='mx-auto w-full max-w-prose aspect-video overflow-hidden rounded-xl border'></div>
                 </div>
             </section>
-            <section className='w-full py-6 md:py-12 lg:py-16 border-t'>
+            <section className='w-full py-6 md:py-12 lg:py-16 border-t' id='enter-steam-code'>
                 <div className='container flex flex-col items-center justify-center space-y-4 px-4 md:px-6'>
                     <div className='space-y-2 text-center'>
                         <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl'>Enter Stream Code</h2>
