@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
             {/* Content */}
             <body className={inter.className}>
                 {/* Header */}
-                <header className='px-4 lg:px-6 h-14 flex items-center'>
+                <header className='px-4 lg:px-6 h-14 flex items-center animate-in fade-in duration-1000'>
                     <Link className='flex items-center justify-center' href='/'>
                         <Logo />
                         <span className='font-bold ml-2 text-xl'>InstructAR</span>
