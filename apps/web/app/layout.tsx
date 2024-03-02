@@ -26,7 +26,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
                 <meta name='theme-color' content='#112c4a' />
             </Head>
             {/* Content */}
-            <body className={inter.className}>
+            <body
+                className={inter.className}
+                style={{
+                    backgroundImage: 'radial-gradient(lightgray 1px, transparent 0)',
+                    backgroundSize: '40px 40px',
+                    backgroundPosition: '20px 20px'
+                }}
+            >
                 {/* Header */}
                 <header className='px-4 lg:px-6 h-14 flex items-center animate-in fade-in duration-1000'>
                     <Link className='flex items-center justify-center' href='/'>
