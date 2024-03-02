@@ -17,7 +17,7 @@ export default function Page() {
                     </div>
                 </div>
             </section>
-            <section className='w-full py-6 md:py-12 lg:py-16 bg-gray-100 dark:bg-gray-800'>
+            <section className='w-full py-6 md:py-12 lg:py-16 bg-gray-100 dark:bg-gray-800' id='how-it-works'>
                 <div className='container flex flex-col items-center justify-center px-4 space-y-4 md:px-6'>
                     <div className='space-y-2 text-center'>
                         <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl'>How it works</h2>
