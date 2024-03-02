@@ -13,7 +13,7 @@ export default function Page() {
                     </div>
                     <div className='h-96 max-w-prose overflow-hidden rounded-xl shadow-video'>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src='./logo.svg' alt='logo' className='h-full' />
+                        <img src='./logo.svg' alt='logo' className='h-full motion-safe:animate-[spin_3s_linear_infinite]' />
                     </div>
                 </div>
             </section>
