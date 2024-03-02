@@ -17,7 +17,10 @@ export default function Page() {
                     </div>
                 </div>
             </section>
-            <section className='w-full py-6 md:py-12 lg:py-16 bg-gray-100 dark:bg-gray-800' id='how-it-works'>
+            <section
+                className='w-full py-6 md:py-12 lg:py-16 bg-gray-100 dark:bg-gray-800 min-h-[calc(100vh/2)] flex flex-col justify-center'
+                id='how-it-works'
+            >
                 <div className='container flex flex-col items-center justify-center px-4 space-y-4 md:px-6 max-w-6xl'>
                     <div className='space-y-2 text-center'>
                         <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl'>How it works</h2>
@@ -33,7 +36,10 @@ export default function Page() {
                     </div>
                 </div>
             </section>
-            <section className='w-full py-6 md:py-12 lg:py-16 border-t' id='enter-steam-code'>
+            <section
+                className='w-full py-6 md:py-12 lg:py-16 border-t min-h-[calc(100vh/2)] flex flex-col justify-center'
+                id='enter-steam-code'
+            >
                 <div className='container flex flex-col items-center justify-center space-y-4 px-4 md:px-6'>
                     <div className='space-y-2 text-center'>
                         <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl'>Enter Stream Code</h2>
@@ -46,7 +52,7 @@ export default function Page() {
                     </div>
                 </div>
             </section>
-            <section className='w-full py-6 md:py-12 lg:py-16 bg-gray-100'>
+            <section className='w-full py-6 md:py-12 lg:py-16 bg-gray-100 min-h-[calc(100vh/2)]'>
                 <div className='container flex flex-col items-center justify-center px-4 space-y-4 md:px-6'>
                     <div className='space-y-2 text-center'>
                         <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl'>AR Interaction</h2>
