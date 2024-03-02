@@ -9,7 +9,8 @@ export default function EnterCode() {
     const [code, setCode] = useState('');
     const router = useRouter();
 
-    function onSubmit() {
+    function onSubmit(e?: React.FormEvent<HTMLFormElement>) {
+        e?.preventDefault();
         if (!code) return;
         router.push(`/stream/${code}`);
     }
@@ -17,7 +18,7 @@ export default function EnterCode() {
     return (
         <form className='grid gap-2' onSubmit={onSubmit}>
             <Input className='w-full' placeholder='XXXXXX' type='text' onChange={e => setCode(e.target.value)} value={code} />
-            <Button className='w-full' type='submit' onClick={onSubmit}>
+            <Button className='w-full' type='submit' onClick={() => onSubmit()}>
                 Join Stream
             </Button>
         </form>
