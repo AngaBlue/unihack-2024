@@ -8,12 +8,13 @@ import express, {
 import { Server } from "socket.io";
 
 // Import schemas
-import { ClientToServerEvents, ServerToClientEvents, SocketData } from "./sockets/schemas"
+import { ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData } from "./sockets/schemas"
 
 // Import routers
 import { controllerRouter } from "./routes/control"
 
 import dotenv from "dotenv";
+import { InstructarSession, globalState } from './state/state';
 
 dotenv.config();
 
@@ -30,7 +31,12 @@ const server = require('http').createServer(
     }
 );
 
-const io = new Server<ClientToServerEvents, ServerToClientEvents, {}, SocketData>(server);
+const io = new Server<
+  ClientToServerEvents,
+  ServerToClientEvents,
+  InterServerEvents,
+  SocketData
+>(server);
 
 app.use("/control", controllerRouter);
 
@@ -43,10 +49,58 @@ app.get("/", (req: Request, res: Response) => {
 // SocketIO Handlers
 
 
-io.on("connect", (a) => {
-    console.log(a);
+io.on("connect", (socket) => {
     console.log("Connected!");
+
+    socket.on("identify", (type) => {
+        socket.data.identity = type;
+        switch(type){
+            case 'capture':
+                console.log("Capture client connected.");
+
+                break;
+
+            case 'view':
+                console.log("View client connected.")
+                let token: string = globalState.createSession(socket);
+
+                // Send the token back
+                socket.emit("viewerGetSessionToken", token);
+
+                break;
+            default:
+                throw new Error(`Identification not supported for type '${type}'`);
+        }
+    });
+
+    socket.on("newFrame", (token: string, frameId: number, framePayload: Buffer, compressed: boolean) => {
+        if (socket.data.identity != 'capture') throw new Error(`Received new frame from identity '${socket.data.identity}' - must be 'capture' identity`)
+        
+        let session: InstructarSession | null = globalState.retrieveSession(token);
+        if (session === null) {
+            // Can't do any thing. Return
+            console.log("Warning! New frame was given but the session token wasn't valid")
+            return;
+        } else {
+            if (!compressed) {
+                // Do some compression to the payload
+            }
+            
+            // Write the newest frame
+            session.frame = [frameId, framePayload];
+
+        }
+
+        
+
+        
+        
+
+    });
+
+    socket.on("disconnect", ()=>console.log("Disconnect"));
 });
+
 
 
 
