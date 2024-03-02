@@ -6,7 +6,7 @@ interface EmojiButtonProps extends ButtonProps {
 }
 
 export default function EmojiButton({ emoji, isActive, onClick, ...props }: EmojiButtonProps) {
-    const activeClass = isActive ? 'bg-teal-300 animate-bounce' : 'bg-slate-200';
+    const activeClass = isActive ? 'bg-teal-300' : 'bg-slate-200';
     const hoverClass = 'hover:bg-teal-300';
 
     return (
