@@ -23,6 +23,10 @@ const emojis = ['❗', '⬇️', '✋', '🔥'];
 
 const socket = io(process.env.NEXT_PUBLIC_API_HOST);
 
+socket.on('connect', () => {
+    console.log('Connected to socket server');
+});
+
 export default function StreamPage({ params: { code } }: StreamPageProps) {
     const [loading, setLoading] = useState(true);
     const [currentEmoji, setCurrentEmoji] = useState('');
@@ -30,12 +34,16 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
 
     useEffect(() => {
         async function connect() {
-            console.log('Connected to socket server');
+            // Temp create code
+            socket.emit('identify', 'view');
+            console.log('Identified as view');
+
             const subscribed = await socket.emitWithAck('subscribe', code);
             if (!subscribed) {
                 console.error('Failed to subscribe to stream');
                 return;
             }
+            console.log('Subscribed to stream');
             setLoading(false);
         }
 
@@ -80,8 +88,17 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
                     style={currentEmoji ? cursor(currentEmoji) : {}}
                 >
                     {/* Image */}
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    {frame && <img src={`data:image/jpg;base64,${frame.image.toString('base64')}`} alt='Stream' onClick={onFrameClick} />}
+                    {/* {frame && ( */}
+                    <>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src={`data:image/jpg;base64,${frame?.image.toString('base64')}`}
+                            alt='Stream'
+                            onClick={onFrameClick}
+                            className='h-full w-full'
+                        />
+                    </>
+                    {/* )} */}
                     {/* Loading background */}
                     <div className={cn('absolute top-0 left-0 w-full h-full bg-slate-200 flex justify-center items-center')}>
                         {loading && <FaSpinner className='w-16 h-16 text-primary animate-spin' />}
