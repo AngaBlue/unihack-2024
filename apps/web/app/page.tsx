@@ -1,14 +1,15 @@
 import Link from 'next/link';
 import { Input } from '@web/components/ui/input';
 import { Button } from '@web/components/ui/button';
+import Image from 'next/image';
 
 export default function Page() {
     return (
         <div className='flex flex-col min-h-[100dvh]'>
             <header className='px-4 lg:px-6 h-14 flex items-center'>
                 <Link className='flex items-center justify-center' href='#'>
-                    {/* <MountainIcon className='h-6 w-6' /> */}
-                    <span className='sr-only'>InstructAR</span>
+                    <Image src={require('@web/images/logo.svg')} alt='InstructAR' width={32} height={32} />
+                    <span className='font-bold ml-2'>InstructAR</span>
                 </Link>
                 <nav className='ml-auto flex gap-4 sm:gap-6'>
                     <Link className='text-sm font-medium hover:underline underline-offset-4' href='#'>
@@ -72,24 +73,18 @@ export default function Page() {
                 <section className='w-full py-6 md:py-12 lg:py-16 border-t'>
                     <div className='container flex flex-col items-center justify-center space-y-4 px-4 md:px-6'>
                         <div className='space-y-2 text-center'>
-                            <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl'>Sign up for early access</h2>
+                            <h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl'>Enter Stream Code</h2>
                             <p className='max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400'>
-                                Be the first to experience VR Live. Sign up to get notified when we launch.
+                                Enter a stream code to join a live stream and interact with the physical environment in real-time.
                             </p>
                         </div>
                         <div className='mx-auto w-full max-w-[400px] space-y-2'>
                             <form className='grid gap-2'>
-                                <Input className='w-full' placeholder='Enter your email' type='email' />
+                                <Input className='w-full' placeholder='XXXXXX' type='text' />
                                 <Button className='w-full' type='submit'>
-                                    Sign Up
+                                    Join Stream
                                 </Button>
                             </form>
-                            <p className='text-xs text-gray-500 dark:text-gray-400'>
-                                Sign up to get notified when we launch.
-                                <Link className='underline underline-offset-2' href='#'>
-                                    Terms & Conditions
-                                </Link>
-                            </p>
                         </div>
                     </div>
                 </section>
