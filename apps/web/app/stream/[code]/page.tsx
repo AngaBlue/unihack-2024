@@ -52,10 +52,9 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
         connect();
 
         socket.on('frame', async (image: Buffer, location: Vec3, direction: Vec3) => {
-            console.log('Received frame', image, location, direction);
-
             // Only update the frame if we don't have an emoji selected
-            if (!currentEmoji) setFrame({ image: await arrayBufferToBase64(image), location, direction });
+            if (currentEmoji) return;
+            setFrame({ image: await arrayBufferToBase64(image), location, direction });
         });
 
         // Clean up
