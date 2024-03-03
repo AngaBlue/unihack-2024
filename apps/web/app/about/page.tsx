@@ -1,17 +1,17 @@
 export default function About() {
     return (
         <div className='flex flex-col items-center min-h-full p-6'>
-            <div className='max-w-6xl w-full'>
+            <div className='max-w-6xl w-full space-y-4'>
                 <h1 className='text-4xl font-bold'>About</h1>
                 <h2 className='text-2xl font-bold'>Inspiration</h2>
                 <p>
-                    Over the last few years, remote and virtual collaboration [InstructAR](https://instructar.anga.dev) has exploded as we
-                    open up industries to collaboration from around the world and become ever more concious the cost commuting and
-                    long-distance travel has on our environment. We were inspired by the need to bridge the gap between virtual expertise
-                    and physical application. We envisioned a tool that brings expert guidance directly to the field, no matter the
-                    distance. For instance, a technician repairing airplane could receive real-time instructions and supervision from a
-                    remote expert, with AR markers guiding the process. Or, surgeons or medical students could benefit from real-time,
-                    AR-enhanced guidance during intricate and specialised procedures or training sessions.
+                    Over the last few years, remote and virtual collaboration has exploded as we open up industries to collaboration from
+                    around the world and become ever more concious the cost commuting and long-distance travel has on our environment. We
+                    were inspired by the need to bridge the gap between virtual expertise and physical application. We envisioned a tool
+                    that brings expert guidance directly to the field, no matter the distance. For instance, a technician repairing airplane
+                    could receive real-time instructions and supervision from a remote expert, with AR markers guiding the process. Or,
+                    surgeons or medical students could benefit from real-time, AR-enhanced guidance during intricate and specialised
+                    procedures or training sessions.
                 </p>
                 <h2 className='text-2xl font-bold'>What is InstructAR</h2>
                 <p>
