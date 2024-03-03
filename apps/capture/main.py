@@ -1,6 +1,7 @@
 import json
 import math
 import os
+import socket
 from statistics import mean
 import threading
 from timeit import default_timer
@@ -107,12 +108,14 @@ def load_settings(path: str) -> dict:
 
 
 def apply_transformations(frame: np.ndarray, transformations: dict):
-    return rotate_image(frame, transformations['rotate'])
+    return rotate_image(frame, transformations['rotate']) if frame is not None else None
 
 current_frame: np.ndarray = None
 
 def main():
     global current_frame
+
+    running = True
 
     settings = load_settings(SETTINGS_PATH)
 
@@ -120,24 +123,53 @@ def main():
         global current_frame
 
         # Create a socketIO server
-        sio_headset = socketio.Server(async_mode="threading")
+        # sio_headset = socketio.Server(async_mode="threading")
 
-        # wrap with a WSGI application
-        app = Flask(__name__)
-        app.wsgi_app = socketio.WSGIApp(sio_headset, app.wsgi_app)
+        # # wrap with a WSGI application
+        # app = Flask(__name__)
+        # app.wsgi_app = socketio.WSGIApp(sio_headset, app.wsgi_app)
 
         sio_to_backend = socketio.SimpleClient()
-        sio_to_backend.connect(settings['connection']['backend'])
+        sio_to_backend.connect(settings['connection']['backend'])\
+        
+        sio_to_backend.emit("identify", "capture")
+
+
 
         # Server (i.e., headset) events
-        @sio_headset.on("location")
-        def on_location(sid, location: tuple[float], direction: tuple[float]):
-            print(f"The SID is: {sid}")
-            payload = cv2.imencode("jpeg", current_frame)
-            sio_to_backend.emit("newFrame", (payload, location, direction))
+        # @sio_headset.on("location")
+        # def on_location(sid, token: str, location: tuple[float], direction: tuple[float]):
+        #     print(f"The SID is: {sid}")
+        #     print(token, location, direction)
+        #     payload = cv2.imencode(".jpeg", current_frame, [cv2.IMWRITE_JPEG_QUALITY, 10])[1].tobytes()
+        #     sio_to_backend.emit("newFrame", (token, payload, location, direction))
             
-        
-        app.run("0.0.0.0", settings['connection']['socket-port'])
+        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        # Bind the socket to a specific address and port
+        server_socket.bind(("0.0.0.0", settings['connection']['socket-port']))
+
+        # Listen for incoming connections
+        server_socket.listen()
+
+        # Accept a connection from a client
+        client_socket, client_address = server_socket.accept()
+        while running:
+            
+            print(f"Connection from {client_address}")
+
+            # Receive and print data from the client
+            data = client_socket.recv(1024).decode('utf-8').split(';')
+            
+            token, location, direction = (data[0], [int(v) for v in data[1].split(',')], [int(v) for v in data[2].split(',')])
+
+            print(token, location, direction)
+
+            payload = cv2.imencode(".jpeg", current_frame)[1].tobytes()
+
+            sio_to_backend.emit("newFrame", (token, payload, location, direction))
+
+        # app.run("0.0.0.0", settings['connection']['socket-port'])
         ################################
 
     threading.Thread(target=headset_communication_thread).start()
@@ -189,6 +221,12 @@ def main():
 
         if (cv2.waitKey(1) & 0xFF) == ord('q'): break
 
+    running = False
+
     cv2.destroyAllWindows()
 
-if __name__ == "__main__": main()
+if __name__ == "__main__": 
+    try:
+        main()
+    except KeyboardInterrupt:
+        quit()

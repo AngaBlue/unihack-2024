@@ -64,7 +64,20 @@ io.on('connect', socket => {
         }
     });
 
+    socket.on('click', (x: number, y: number, location: [number, number, number], direction: [number, number, number], emoji: string) => {
+        if (socket.data.session === null) return;
+        const session: InstructarSession | null = globalState.retrieveSession(socket.data.session);
+        if (session === null) {
+            return;
+        } else {
+            // Send to view
+            session.viewer.emit("displayIndicator", x, y, location, direction, emoji);
+        }
+    });
+
     socket.on('subscribe', (token: string, callback) => {
+        // Save token
+        socket.data.session = token;
         const session: InstructarSession | null = globalState.retrieveSession(token);
         if (session === null) {
             callback(false);

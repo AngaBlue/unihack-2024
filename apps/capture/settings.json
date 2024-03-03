@@ -1,6 +1,6 @@
 {
     "connection": {
-        "backend": "",
+        "backend": "https://instructarapi.anga.dev/",
         "socket-port": 12345
     },
 
