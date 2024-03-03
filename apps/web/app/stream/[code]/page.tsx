@@ -19,7 +19,7 @@ interface Frame {
     position: Vec3;
     direction: Vec3;
 }
-const emojis = ['⬇️', '✋', '⚠️', '🔧'];
+const emojis = ['❗', '⬇️', '✋', '⚠️', '🔧'];
 
 const socket = io(process.env.NEXT_PUBLIC_API_HOST);
 
