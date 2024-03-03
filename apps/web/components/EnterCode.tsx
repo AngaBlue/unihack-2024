@@ -19,11 +19,11 @@ export default function EnterCode() {
         <form className='grid gap-2' onSubmit={onSubmit}>
             <Input
                 className='w-full'
-                placeholder='XXXXXX'
+                placeholder='XXXXX'
                 type='text'
                 onChange={e => setCode(e.target.value.toUpperCase())}
                 value={code}
-                maxLength={6}
+                maxLength={5}
             />
             <Button className='w-full' type='submit' onClick={() => onSubmit()}>
                 Join Stream

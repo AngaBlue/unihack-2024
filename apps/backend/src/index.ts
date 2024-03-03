@@ -1,23 +1,14 @@
-// Backend for UniHack24 (Team: Synapps)
-// This backend establishes socket connections and forwards traffic for the application
-
-import express, { Express, Request, Response } from 'express';
-
+import express from 'express';
 import { Server } from 'socket.io';
-
-// Import schemas
 import dotenv from 'dotenv';
-import { ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData } from './sockets/schemas';
+import { ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData } from './io/schemas';
+import streams from './state/streams';
 
-// Import routers
-import { controllerRouter } from './routes/control';
-
-import { InstructarSession, globalState } from './state/state';
-
+// Load environment variables
 dotenv.config();
-
-const app: Express = express();
 const port = process.env.PORT || 3000;
+
+const app = express();
 
 const server = require('http').createServer(app, {
     cors: {
@@ -26,42 +17,29 @@ const server = require('http').createServer(app, {
     }
 });
 
-const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(server, { cors: { origin: '*' } });
-
-app.use('/control', controllerRouter);
-
-// Default (use this as server up check perhaps)
-app.get('/', (req: Request, res: Response) => {
-    res.send('Synapps Backend');
+// Health check
+app.get('/', (_req, res) => {
+    res.send('OK');
 });
 
-// ===============
-// SocketIO Handlers
+/**
+ * Socket.io events
+ */
+const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(server, { cors: { origin: '*' } });
 
 io.on('connect', socket => {
-    console.log('Connected!');
+    console.log('Client connected:', socket.id);
 
-    socket.on('identify', type => {
-        socket.data.identity = type;
-        switch (type) {
-            case 'capture':
-                console.log('Capture client connected.');
+    /**
+     * Create a new stream. This is the first step in the process.
+     */
+    socket.on('getStreamCode', callback => {
+        const code = streams.create();
+        console.log('Created session with code', code);
 
-                break;
-
-            case 'view':
-                console.log('View client connected.');
-                const token: string = globalState.createSession(socket);
-
-                // Send the token back
-                console.log(token)
-                socket.emit('viewerGetSessionToken', token);
-
-                break;
-
-            default:
-                throw new Error(`Identification not supported for type '${type}'`);
-        }
+        // Add the socket to the room to receive click events
+        socket.join(`${code}-headset`);
+        if (callback) callback(code);
     });
 
     socket.on('click', (x: number, y: number, location: [number, number, number], direction: [number, number, number], emoji: string) => {
@@ -80,35 +58,41 @@ io.on('connect', socket => {
         socket.data.session = token;
         const session: InstructarSession | null = globalState.retrieveSession(token);
         if (session === null) {
-            callback(false);
+            if (callback) callback(false);
         } else {
             socket.join(token);
-            callback(true);
+            if (callback) callback(true);
         }
     });
 
-    socket.on(
-        'newFrame',
-        (token: string, framePayload: Buffer, location: [number, number, number], direction: [number, number, number]) => {
-            if (socket.data.identity !== 'capture')
-                throw new Error(`Received new frame from identity '${socket.data.identity}' - must be 'capture' identity`);
-
-            const session: InstructarSession | null = globalState.retrieveSession(token);
-            if (session === null) {
-                // Can't do any thing. Return
-                console.log("Warning! New frame was given but the session token wasn't valid");
-            } else {
-                // Send to the corresponding room
-                io.to(token).emit('frame', framePayload, location, direction);
-            }
+    /**
+     * New frame from the capture device.
+     */
+    socket.on('newFrame', (code, frame, position, direction) => {
+        const session = streams.get(code);
+        if (!session) {
+            // Can't do any thing. Return
+            console.log("Frame was received but the session code wasn't valid.");
+        } else {
+            // Send to the corresponding room
+            io.to(code).emit('frame', frame, position, direction);
         }
-    );
+    });
 
-    socket.on('disconnect', () => console.log('Disconnect'));
+    /**
+     * Issue an indicator to the view.
+     */
+    socket.on('click', (code, event) => {
+        const session = streams.get(code);
+        if (!session) return console.error("Click event was received but the session code wasn't valid.");
+        console.log('Received click event:', event);
+        socket.to(`${code}-headset`).emit('displayIndicator', event);
+    });
+
+    socket.on('disconnect', () => console.log('Client disconnected:', socket.id));
 });
 
-// ===============
-
+// Listen
 server.listen(port, () => {
-    console.log(`[server]: Server is at http://localhost:${port}`);
+    console.log(`Server is listening on port ${port}.`);
 });

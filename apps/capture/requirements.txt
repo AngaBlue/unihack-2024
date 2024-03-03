@@ -1,7 +1,5 @@
 pygetwindow
-pyautogui
 opencv-python
-ffmpeg-python
 numpy
 mss
 python-socketio[client]

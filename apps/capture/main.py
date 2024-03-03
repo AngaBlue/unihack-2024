@@ -1,5 +1,4 @@
 import json
-import math
 import os
 import socket
 from statistics import mean
@@ -8,9 +7,7 @@ from timeit import default_timer
 from flask import Flask
 from mss import mss
 import pygetwindow as gw
-import pyautogui
 import cv2
-import ffmpeg
 import numpy as np
 import socketio
 
@@ -76,18 +73,6 @@ def capture_window(window, crop: dict):
         print(f"!!! - {e}")
         return None
 
-# Stream settings - Update with your server details
-# stream_url = 'your_server_url'
-# stream_key = 'your_stream_key'
-# # Initialize the ffmpeg stream
-# command = (
-#     ffmpeg
-#     .input('pipe:', format='rawvideo', pix_fmt='rgb24', s='{}x{}'.format(window.width, window.height))
-#     .output(stream_url, vcodec='libx264', pix_fmt='yuv420p', preset='ultrafast', f='flv', stream_key=stream_key)
-#     .overwrite_output()
-#     .run_async(pipe_stdin=True)
-# )
-
 # Capture and stream the window content
 
 SETTINGS_PATH = 'settings.json'
@@ -137,12 +122,20 @@ def main():
 
 
         # Server (i.e., headset) events
+<<<<<<< HEAD
         # @sio_headset.on("location")
         # def on_location(sid, token: str, location: tuple[float], direction: tuple[float]):
         #     print(f"The SID is: {sid}")
         #     print(token, location, direction)
         #     payload = cv2.imencode(".jpeg", current_frame, [cv2.IMWRITE_JPEG_QUALITY, 10])[1].tobytes()
         #     sio_to_backend.emit("newFrame", (token, payload, location, direction))
+=======
+        @sio_headset.on("location")
+        def on_location(sid, location: tuple[float], direction: tuple[float]):
+            print(f"The SID is: G53U8") # Sorry Jordan
+            payload = cv2.imencode("jpeg", current_frame)
+            sio_to_backend.emit("newFrame", (payload, location, direction))
+>>>>>>> f90d0cbbfcf012b538d5ef1f1856cb004df4d7ea
             
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 

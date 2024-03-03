@@ -1,3 +1,6 @@
+# Capture
+The capture tool is a Python-based application that captures camera feeds and streams them to the backend server.  In order to make the resultant video feed more useful, the capture tool also performs image processing and compression before sending the feed to the server along with the position & orientation of the headset.
+
 ## Setup
 
 1. Install Python `v3.11.X`
@@ -14,10 +17,3 @@
 4. Install requirements
     - **Windows**: `py -m pip install -r requirements.txt`
     - **MacOS**: `python3 -m pip install -r requirements.txt`
-
-5. Install FFMPEG
-    - **Windows**:
-        1. [Download Windows build](https://www.gyan.dev/ffmpeg/builds/)
-        2. Extract anywhere on the local machine
-        3. Add the inner `bin` directory to `PATH`
-    - **MacOS**: [*Refer to this link on using Brew*](https://formulae.brew.sh/formula/ffmpeg)

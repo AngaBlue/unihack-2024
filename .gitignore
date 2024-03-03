@@ -39,3 +39,7 @@ yarn-error.log*
 
 # PM2
 ecosystem.config.js
+
+Library
+Temp
+Logs

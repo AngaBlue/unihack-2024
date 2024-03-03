@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 310b767bbc3cd994d8370e0eac36f1ff
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - exclamationPrefab: {fileID: 7012468860178379401, guid: 1dad484d036664548b93eb53450a6dbd, type: 3}
+  - centerEyeAnchor: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
