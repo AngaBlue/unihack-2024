@@ -20,6 +20,4 @@ export interface InterServerEvents {
     ping: () => void;
 }
 
-export interface SocketData {
-    session: string | null;
-}
+export interface SocketData {}
