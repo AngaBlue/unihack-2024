@@ -16,7 +16,7 @@ interface StreamPageProps {
 type Vec3 = [number, number, number];
 interface Frame {
     image: string;
-    location: Vec3;
+    position: Vec3;
     direction: Vec3;
 }
 const emojis = ['⬇️', '✋', '⚠️', '🔧'];
@@ -63,7 +63,7 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
         socket.on('frame', async (image: Buffer, location: Vec3, direction: Vec3) => {
             // Only update the frame if we don't have an emoji selected
             if (currentEmoji) return;
-            setFrame({ image: await arrayBufferToBase64(image), location, direction });
+            setFrame({ image: await arrayBufferToBase64(image), position: location, direction });
         });
 
         return () => {
@@ -80,7 +80,7 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
         const y = e.nativeEvent.offsetY / e.currentTarget.clientHeight;
 
         // Emit position
-        socket.emit('click', { x, y, location: frame.location, direction: frame.direction, emoji: currentEmoji });
+        socket.emit('click', { x, y, position: frame.position, direction: frame.direction, emoji: currentEmoji });
     }
 
     return (

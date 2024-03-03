@@ -6,6 +6,9 @@ const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';
  * @returns The generated string.
  */
 export default function generateRandomString(length: number) {
+    // TODO: remove this line
+    return 'G53U8';
+
     let result = '';
 
     for (let i = 0; i < length; i++) {

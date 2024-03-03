@@ -1,17 +1,27 @@
 export interface ServerToClientEvents {
-    displayIndicator: (indicatorId: number, frameId: number, indicatorTypeId: number, screenPoints: number[][]) => void;
+    displayIndicator: (event: ClickEvent) => void;
 
     frame: (framePayload: Buffer, location: [number, number, number], direction: [number, number, number]) => void;
+}
+
+type Vec3 = [number, number, number];
+
+interface ClickEvent {
+    x: number;
+    y: number;
+    position: Vec3;
+    direction: Vec3;
+    emoji: string;
 }
 
 export interface ClientToServerEvents {
     getStreamCode: (callback: (code: string) => void) => void;
 
-    subscribe: (token: string, callback: (success: boolean) => void) => void;
+    subscribe: (code: string, callback: (success: boolean) => void) => void;
 
-    newFrame: (token: string, framePayload: Buffer, location: [number, number, number], direction: [number, number, number]) => void;
+    newFrame: (code: string, framePayload: Buffer, location: [number, number, number], direction: [number, number, number]) => void;
 
-    click: (indicatorId: number, frameId: number, indicatorTypeId: number, screenPoints: number[][]) => void;
+    click: (code: string, event: ClickEvent) => void;
 }
 
 export interface InterServerEvents {

@@ -30,8 +30,9 @@ io.on('connect', socket => {
      * Create a new stream. This is the first step in the process.
      */
     socket.on('getStreamCode', callback => {
-        const code = streams.create(socket);
+        const code = streams.create();
         console.log('Created session with code', code);
+
         // Add the socket to the room to receive click events
         socket.join(`${code}-headset`);
         callback(code);
@@ -53,21 +54,26 @@ io.on('connect', socket => {
     /**
      * New frame from the capture device.
      */
-    socket.on('newFrame', (token, frame, position, direction) => {
-        const session = streams.get(token);
+    socket.on('newFrame', (code, frame, position, direction) => {
+        const session = streams.get(code);
         if (!session) {
             // Can't do any thing. Return
-            console.log("Warning! New frame was given but the session token wasn't valid");
+            console.log("Frame was received but the session code wasn't valid.");
         } else {
             // Send to the corresponding room
-            io.to(token).emit('frame', frame, position, direction);
+            io.to(code).emit('frame', frame, position, direction);
         }
     });
 
     /**
      * Issue an indicator to the view.
      */
-    socket.on('click', ());
+    socket.on('click', (code, event) => {
+        const session = streams.get(code);
+        if (!session) return console.error("Click event was received but the session code wasn't valid.");
+        console.log('Received click event:', event);
+        socket.to(`${code}-headset`).emit('displayIndicator', event);
+    });
 
     socket.on('disconnect', () => console.log('Client disconnected:', socket.id));
 });
