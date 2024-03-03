@@ -44,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
                         <Link className='text-sm font-medium hover:underline underline-offset-4' href='/#enter-steam-code'>
                             Enter Stream Code
                         </Link>
-                        <Link className='text-sm font-medium hover:underline underline-offset-4' href='/#how-it-works'>
+                        <Link className='text-sm font-medium hover:underline underline-offset-4' href='/about'>
                             About
                         </Link>
                         <Link

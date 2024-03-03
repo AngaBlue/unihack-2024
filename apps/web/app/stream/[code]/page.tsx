@@ -36,16 +36,15 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
         async function connect() {
             // Temp create code
             if (process.env.NODE_ENV === 'development') {
+                // In development, identify as a view to generate a steam code
                 socket.emit('identify', 'view');
                 console.log('Identified as view');
             }
 
+            // Subscribe to stream
             const subscribed = await socket.emitWithAck('subscribe', code);
-            if (!subscribed) {
-                console.error('Failed to subscribe to stream');
-                return;
-            }
-            console.log('Subscribed to stream');
+            if (!subscribed) return console.error('Failed to subscribe to stream: ', code);
+            console.log('Subscribed to stream', code);
             setLoading(false);
         }
 
@@ -72,10 +71,6 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
         };
     }, [currentEmoji]);
 
-    function clickEmoji(emoji: string) {
-        setCurrentEmoji(emoji);
-    }
-
     function onFrameClick(e: React.MouseEvent<HTMLImageElement>) {
         if (!currentEmoji || !frame) return;
         setCurrentEmoji('');
@@ -89,10 +84,10 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
     }
 
     return (
-        <div className='flex justify-center items-center p-6 gap-8'>
-            <div className='flex flex-col gap-4'>
+        <div className='flex justify-center items-center p-6 gap-8 max-w-full overflow-hidden'>
+            <div className='flex flex-col gap-4 max-w-full overflow-hidden min-w-0'>
                 <div
-                    className='aspect-square w-[80vh] max-w-ful rounded-2xl relative overflow-hidden'
+                    className='aspect-square w-[80vh] max-w-[80vw] rounded-2xl relative overflow-hidden'
                     style={currentEmoji ? cursor(currentEmoji) : {}}
                 >
                     {/* Image */}
@@ -120,7 +115,7 @@ export default function StreamPage({ params: { code } }: StreamPageProps) {
             </div>
             <div className='flex space-between flex-col gap-4'>
                 {emojis.map(emoji => (
-                    <EmojiButton key={emoji} emoji={emoji} onClick={() => clickEmoji(emoji)} isActive={currentEmoji === emoji}>
+                    <EmojiButton key={emoji} emoji={emoji} onClick={() => setCurrentEmoji(emoji)} isActive={currentEmoji === emoji}>
                         {emoji}
                     </EmojiButton>
                 ))}
