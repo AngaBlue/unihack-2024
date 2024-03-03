@@ -122,20 +122,12 @@ def main():
 
 
         # Server (i.e., headset) events
-<<<<<<< HEAD
         # @sio_headset.on("location")
         # def on_location(sid, token: str, location: tuple[float], direction: tuple[float]):
         #     print(f"The SID is: {sid}")
         #     print(token, location, direction)
         #     payload = cv2.imencode(".jpeg", current_frame, [cv2.IMWRITE_JPEG_QUALITY, 10])[1].tobytes()
         #     sio_to_backend.emit("newFrame", (token, payload, location, direction))
-=======
-        @sio_headset.on("location")
-        def on_location(sid, location: tuple[float], direction: tuple[float]):
-            print(f"The SID is: G53U8") # Sorry Jordan
-            payload = cv2.imencode("jpeg", current_frame)
-            sio_to_backend.emit("newFrame", (payload, location, direction))
->>>>>>> f90d0cbbfcf012b538d5ef1f1856cb004df4d7ea
             
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
