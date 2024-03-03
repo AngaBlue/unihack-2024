@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 62e6c2d8f2650964db48947fb234b7a1
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - particleEffectPrefab: {fileID: 4597325708459058972, guid: aa9a92da844d54441b176ea8e1b2eced, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
