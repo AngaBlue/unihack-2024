@@ -132,7 +132,7 @@ def main():
         # Server (i.e., headset) events
         @sio_headset.on("location")
         def on_location(sid, location: tuple[float], direction: tuple[float]):
-            print(f"The SID is: {sid}")
+            print(f"The SID is: G53U8") # Sorry Jordan
             payload = cv2.imencode("jpeg", current_frame)
             sio_to_backend.emit("newFrame", (payload, location, direction))
             

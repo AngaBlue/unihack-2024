@@ -45,6 +45,36 @@ public class ObjectPlacer : MonoBehaviour
         });
 
         await client.ConnectAsync();
+        await client.EmitAsync("getStreamCode");
+        StartCoroutine(ConnectAndEmit());
+    }
+    IEnumerator ConnectAndEmit()
+    {
+        // Connect to the Socket.IO server
+        yield return client.ConnectAsync();
+
+        // Optionally, emit 'getStreamCode' if needed
+        // yield return socket.EmitAsync("getStreamCode");
+
+        // Start sending location updates
+        StartCoroutine(SendLocationUpdates());
+    }
+    IEnumerator SendLocationUpdates()
+    {
+        while (true)
+        {
+            Vector3 position = transform.position; // Get the object's position
+            Vector3 direction = transform.forward; // Get the object's forward direction
+
+            // Convert to a simple array or a format that matches your server's expectations
+            float[] location = { position.x, position.y, position.z };
+            float[] dir = { direction.x, direction.y, direction.z };
+
+            // Emit the location event with the position and direction data
+            yield return client.EmitAsync("location", new { location, direction = dir });
+
+            // yield return new WaitForSeconds(1); // Wait for a second or adjust as needed
+        }
     }
 
     async void OnDestroy()
