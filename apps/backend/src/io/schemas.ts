@@ -7,9 +7,9 @@ export interface ServerToClientEvents {
 }
 
 export interface ClientToServerEvents {
-    getStreamCode: (callback: (code: string) => void) => void;
+    getStreamCode: (callback?: (code: string) => void) => void;
 
-    subscribe: (code: string, callback: (success: boolean) => void) => void;
+    subscribe: (code: string, callback?: (success: boolean) => void) => void;
 
     newFrame: (code: string, framePayload: Buffer, location: Vec3, direction: Vec3) => void;
 

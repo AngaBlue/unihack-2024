@@ -39,7 +39,7 @@ io.on('connect', socket => {
 
         // Add the socket to the room to receive click events
         socket.join(`${code}-headset`);
-        callback(code);
+        if (callback) callback(code);
     });
 
     /**
@@ -48,10 +48,10 @@ io.on('connect', socket => {
     socket.on('subscribe', (token, callback) => {
         const session = streams.get(token);
         if (session === null) {
-            callback(false);
+            if (callback) callback(false);
         } else {
             socket.join(token);
-            callback(true);
+            if (callback) callback(true);
         }
     });
 
