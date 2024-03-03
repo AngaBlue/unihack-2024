@@ -1,13 +1,14 @@
-import express, { Express, Request, Response } from 'express';
+import express from 'express';
 import { Server } from 'socket.io';
 import dotenv from 'dotenv';
-import { ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData } from './sockets/schemas';
+import { ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData } from './io/schemas';
 import streams from './state/streams';
 
+// Load environment variables
 dotenv.config();
-
-const app: Express = express();
 const port = process.env.PORT || 3000;
+
+const app = express();
 
 const server = require('http').createServer(app, {
     cors: {
@@ -16,12 +17,15 @@ const server = require('http').createServer(app, {
     }
 });
 
-const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(server, { cors: { origin: '*' } });
-
 // Health check
-app.get('/', (_req: Request, res: Response) => {
-    res.send('Synapps Backend');
+app.get('/', (_req, res) => {
+    res.send('OK');
 });
+
+/**
+ * Socket.io events
+ */
+const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(server, { cors: { origin: '*' } });
 
 io.on('connect', socket => {
     console.log('Client connected:', socket.id);

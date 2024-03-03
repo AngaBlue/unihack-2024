@@ -1,17 +1,9 @@
+import { ClickEvent, Vec3 } from './types';
+
 export interface ServerToClientEvents {
     displayIndicator: (event: ClickEvent) => void;
 
-    frame: (framePayload: Buffer, location: [number, number, number], direction: [number, number, number]) => void;
-}
-
-type Vec3 = [number, number, number];
-
-interface ClickEvent {
-    x: number;
-    y: number;
-    position: Vec3;
-    direction: Vec3;
-    emoji: string;
+    frame: (framePayload: Buffer, location: Vec3, direction: Vec3) => void;
 }
 
 export interface ClientToServerEvents {
@@ -19,7 +11,7 @@ export interface ClientToServerEvents {
 
     subscribe: (code: string, callback: (success: boolean) => void) => void;
 
-    newFrame: (code: string, framePayload: Buffer, location: [number, number, number], direction: [number, number, number]) => void;
+    newFrame: (code: string, framePayload: Buffer, location: Vec3, direction: Vec3) => void;
 
     click: (code: string, event: ClickEvent) => void;
 }
