@@ -1,18 +1,8 @@
-// Backend for UniHack24 (Team: Synapps)
-// This backend establishes socket connections and forwards traffic for the application
-
 import express, { Express, Request, Response } from 'express';
-
 import { Server } from 'socket.io';
-
-// Import schemas
 import dotenv from 'dotenv';
 import { ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData } from './sockets/schemas';
-
-// Import routers
-import { controllerRouter } from './routes/control';
-
-import { InstructarSession, globalState } from './state/state';
+import streams from './state/streams';
 
 dotenv.config();
 
@@ -28,47 +18,30 @@ const server = require('http').createServer(app, {
 
 const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(server, { cors: { origin: '*' } });
 
-app.use('/control', controllerRouter);
-
-// Default (use this as server up check perhaps)
-app.get('/', (req: Request, res: Response) => {
+// Health check
+app.get('/', (_req: Request, res: Response) => {
     res.send('Synapps Backend');
 });
 
-// ===============
-// SocketIO Handlers
-
 io.on('connect', socket => {
-    console.log('Connected!');
+    console.log('Client connected:', socket.id);
 
-    socket.on('identify', type => {
-        console.log(`Identified as ${type}`);
-        socket.data.identity = type;
-        switch (type) {
-            case 'capture': {
-                console.log('Capture client connected.');
-
-                break;
-            }
-
-            case 'view': {
-                console.log('View client connected.');
-                const token: string = globalState.createSession(socket);
-
-                // Send the token back
-                console.log(token);
-                socket.emit('viewerGetSessionToken', token);
-
-                break;
-            }
-
-            default:
-                throw new Error(`Identification not supported for type '${type}'`);
-        }
+    /**
+     * Create a new stream. This is the first step in the process.
+     */
+    socket.on('getStreamCode', callback => {
+        const code = streams.create(socket);
+        console.log('Created session with code', code);
+        // Add the socket to the room to receive click events
+        socket.join(`${code}-headset`);
+        callback(code);
     });
 
-    socket.on('subscribe', (token: string, callback) => {
-        const session: InstructarSession | null = globalState.retrieveSession(token);
+    /**
+     * Subscribe to a stream.
+     */
+    socket.on('subscribe', (token, callback) => {
+        const session = streams.get(token);
         if (session === null) {
             callback(false);
         } else {
@@ -77,28 +50,29 @@ io.on('connect', socket => {
         }
     });
 
-    socket.on(
-        'newFrame',
-        (token: string, framePayload: Buffer, location: [number, number, number], direction: [number, number, number]) => {
-            if (socket.data.identity !== 'capture')
-                throw new Error(`Received new frame from identity '${socket.data.identity}' - must be 'capture' identity`);
-
-            const session: InstructarSession | null = globalState.retrieveSession(token);
-            if (session === null) {
-                // Can't do any thing. Return
-                console.log("Warning! New frame was given but the session token wasn't valid");
-            } else {
-                // Send to the corresponding room
-                io.to(token).emit('frame', framePayload, location, direction);
-            }
+    /**
+     * New frame from the capture device.
+     */
+    socket.on('newFrame', (token, frame, position, direction) => {
+        const session = streams.get(token);
+        if (!session) {
+            // Can't do any thing. Return
+            console.log("Warning! New frame was given but the session token wasn't valid");
+        } else {
+            // Send to the corresponding room
+            io.to(token).emit('frame', frame, position, direction);
         }
-    );
+    });
 
-    socket.on('disconnect', () => console.log('Disconnect'));
+    /**
+     * Issue an indicator to the view.
+     */
+    socket.on('click', ());
+
+    socket.on('disconnect', () => console.log('Client disconnected:', socket.id));
 });
 
-// ===============
-
+// Listen
 server.listen(port, () => {
-    console.log(`[server]: Server is at http://localhost:${port}`);
+    console.log(`Server is at http://localhost:${port}`);
 });
