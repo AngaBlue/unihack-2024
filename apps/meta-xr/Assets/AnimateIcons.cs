@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class AnimateIcons : MonoBehaviour
 {
-     private Transform cameraTransform;
+    private Transform cameraTransform;
+    public float destructionDelay = 120.0f; // Time after which the object will be destroyed
 
     public float scaleUpTime = 1.0f;    // Time to complete the scale-up effect
     public float bobbingSpeed = 2.0f;   // Speed of the bobbing motion
@@ -15,13 +16,15 @@ public class AnimateIcons : MonoBehaviour
     private Vector3 targetScale = Vector3.one; // Scale up to normal size
     private bool isScalingUp = true;
 
-    public GameObject particleEffectPrefab; 
+    public GameObject particleEffectPrefab;
 
     void Start()
     {
         initialScale = transform.localScale;
         transform.localScale = Vector3.zero; // Start from zero scale
         FindCameraTransform();
+        Destroy(gameObject, destructionDelay);
+
     }
 
     void Update()
@@ -33,7 +36,7 @@ public class AnimateIcons : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(direction);
         }
 
-    // Handle scaling up effect
+        // Handle scaling up effect
         if (isScalingUp)
         {
             scaleUpTimer += Time.deltaTime;
@@ -60,7 +63,7 @@ public class AnimateIcons : MonoBehaviour
             Instantiate(particleEffectPrefab, transform.position, Quaternion.identity);
         }
     }
-    
+
     private void FindCameraTransform()
     {
         // Assuming using OVR, find the center eye anchor

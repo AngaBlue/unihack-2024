@@ -1,45 +1,60 @@
 using UnityEngine;
+using SocketIOClient;
 using System;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
+using System.Collections;
+using System.Collections.Generic;
 
 public class ObjectPlacer : MonoBehaviour
 {
     public GameObject exclamationPrefab;
     public Transform centerEyeAnchor;
 
-    private TcpClient client;
-    private Thread clientThread;
-    private string receivedMessage = "";
+    private SocketIO client;
 
     // Public variables to set the maximum rotation in degrees
     public float maxHorizontalRotationDegrees = 30f;
     public float maxVerticalRotationDegrees = 30f;
 
-    void Start()
+    async void Start()
     {
-        // ConnectToServer();
+        client = new SocketIO("https://instructarapi.anga.dev/", new SocketIOOptions
+        {
+            Transport = SocketIOClient.Transport.TransportProtocol.WebSocket
+        });
+
+        client.OnConnected += async (sender, e) =>
+        {
+            Debug.Log("Connected");
+
+
+        };
+
+        client.On("displayIndicator", response =>
+        {
+            Debug.Log("Received data: " + response.ToString());
+            // float horizontalRotation = MapRangeToDegrees(horizontalInput, maxHorizontalRotationDegrees);
+            // float verticalRotation = MapRangeToDegrees(verticalInput, maxVerticalRotationDegrees);
+
+            // Vector3 rayDirection = CalculateRayDirection(horizontalRotation, verticalRotation);
+            // Ray ray = new Ray(transform.position, rayDirection);
+
+            // if (Physics.Raycast(ray, out RaycastHit hit))
+            // {
+            //     Instantiate(exclamationPrefab, hit.point + Vector3.up * 0.5f, Quaternion.identity);
+            // }
+        });
+
+        await client.ConnectAsync();
     }
 
-    void Update()
+    async void OnDestroy()
     {
-
-        int horizontalInput = 50; // get from socket
-        int verticalInput = 50; // get from socket
-
-        float horizontalRotation = MapRangeToDegrees(horizontalInput, maxHorizontalRotationDegrees);
-        float verticalRotation = MapRangeToDegrees(verticalInput, maxVerticalRotationDegrees);
-
-        Vector3 rayDirection = CalculateRayDirection(horizontalRotation, verticalRotation);
-        Ray ray = new Ray(transform.position, rayDirection);
-
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        if (client != null)
         {
-            GameObject uiInstance = Instantiate(exclamationPrefab, hit.point, Quaternion.identity);
+            await client.DisconnectAsync();
         }
     }
-    
+
     private float MapRangeToDegrees(int input, float maxRotationDegrees)
     {
         return (input - 50) * (maxRotationDegrees / 50);
@@ -50,49 +65,25 @@ public class ObjectPlacer : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(-verticalRotation, horizontalRotation, 0);
         return transform.rotation * rotation * Vector3.forward;
     }
-
-    void ConnectToServer()
-    {
-        try
-        {
-            //client = new TcpClient("YourServerIP", YourServerPort); // Replace with your server details
-            clientThread = new Thread(new ThreadStart(ListenForData));
-            clientThread.IsBackground = true;
-            clientThread.Start();
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("Socket error: " + e.Message);
-        }
-    }
-
-    private void ListenForData()
-    {
-        Byte[] bytes = new Byte[1024];
-        while (true)
-        {
-            using (NetworkStream stream = client.GetStream())
-            {
-                int length;
-                while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
-                {
-                    var incomingData = new byte[length];
-                    Array.Copy(bytes, 0, incomingData, 0, length);
-                    receivedMessage = Encoding.ASCII.GetString(incomingData);
-                }
-            }
-        }
-    }
-
-    void OnDisable()
-    {
-        if (client != null)
-        {
-            client.Close();
-        }
-        if (clientThread != null)
-        {
-            clientThread.Abort();
-        }
-    }
 }
+
+//  void Update()
+//     {
+//         if (place == 500)
+//         {
+//             int horizontalInput = 50; // get from socket
+//             int verticalInput = 50; // get from socket
+
+//             float horizontalRotation = MapRangeToDegrees(horizontalInput, maxHorizontalRotationDegrees);
+//             float verticalRotation = MapRangeToDegrees(verticalInput, maxVerticalRotationDegrees);
+
+//             Vector3 rayDirection = CalculateRayDirection(horizontalRotation, verticalRotation);
+//             Ray ray = new Ray(transform.position, rayDirection);
+
+//             if (Physics.Raycast(ray, out RaycastHit hit))
+//             {
+//                 GameObject uiInstance = Instantiate(exclamationPrefab, hit.point + Vector3.up * 0.5f, Quaternion.identity);
+//             }
+//         }
+//         place += 1;
+//     }

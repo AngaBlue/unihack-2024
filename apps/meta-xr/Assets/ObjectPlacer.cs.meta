@@ -4,7 +4,7 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - exclamationPrefab: {fileID: 6752873333722125904, guid: d312c519a63552e4ba4afc81f8c02fc4, type: 3}
+  - exclamationPrefab: {fileID: 7012468860178379401, guid: 1dad484d036664548b93eb53450a6dbd, type: 3}
   - centerEyeAnchor: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}

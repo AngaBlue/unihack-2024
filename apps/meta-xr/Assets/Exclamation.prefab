@@ -219,7 +219,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &2037098856933290243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,4 +252,4 @@ MonoBehaviour:
   scaleUpTime: 2
   bobbingSpeed: 3
   bobbingAmount: 0.001
-  particleEffectPrefab: {fileID: 0}
+  particleEffectPrefab: {fileID: 4597325708459058972, guid: aa9a92da844d54441b176ea8e1b2eced, type: 3}
