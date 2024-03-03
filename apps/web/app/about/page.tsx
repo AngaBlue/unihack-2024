@@ -22,7 +22,7 @@ export default function About() {
                 <h2 className='text-2xl font-bold'>Technologies</h2>
                 <p>
                     We built InstructAR using a combination of technologies and frameworks. The VR encoding and streaming uplink is powered
-                    by Python with OpenCV and FFMPEG, while the AR overlay is implemented using Unity (C#) and native Meta Quest 3 APIs. The
+                    by Python with OpenCV and NumPy, while the AR overlay is implemented using Unity (C#) and native Meta Quest 3 APIs. The
                     front-end of the website was developed with TypeScript using Next.js (React), and the back-end integration was achieved
                     with Node.js running TypeScript behind Cloudflare and an NGINX reverse proxy. Each of these 4 applications communicates
                     with each via Socket.IO except for the headset and the steaming uplink which communicate via ADB.

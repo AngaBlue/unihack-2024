@@ -1,5 +1,4 @@
 import json
-import math
 import os
 from statistics import mean
 import threading
@@ -7,9 +6,7 @@ from timeit import default_timer
 from flask import Flask
 from mss import mss
 import pygetwindow as gw
-import pyautogui
 import cv2
-import ffmpeg
 import numpy as np
 import socketio
 
@@ -74,18 +71,6 @@ def capture_window(window, crop: dict):
     except Exception as e:
         print(f"!!! - {e}")
         return None
-
-# Stream settings - Update with your server details
-# stream_url = 'your_server_url'
-# stream_key = 'your_stream_key'
-# # Initialize the ffmpeg stream
-# command = (
-#     ffmpeg
-#     .input('pipe:', format='rawvideo', pix_fmt='rgb24', s='{}x{}'.format(window.width, window.height))
-#     .output(stream_url, vcodec='libx264', pix_fmt='yuv420p', preset='ultrafast', f='flv', stream_key=stream_key)
-#     .overwrite_output()
-#     .run_async(pipe_stdin=True)
-# )
 
 # Capture and stream the window content
 
