@@ -983,7 +983,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exclamationPrefab: {fileID: 7012468860178379401, guid: 1dad484d036664548b93eb53450a6dbd, type: 3}
+  interactablePrefab: {fileID: 2391857294730769035, guid: f89967fcd9779e143add5d92c5f3a738, type: 3}
   centerEyeAnchor: {fileID: 330046858}
+  rightHandAnchor: {fileID: 218655095}
   maxHorizontalRotationDegrees: 30
   maxVerticalRotationDegrees: 30
 --- !u!1001 &1322148207

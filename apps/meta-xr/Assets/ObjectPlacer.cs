@@ -7,8 +7,11 @@ using System.Collections.Generic;
 public class ObjectPlacer : MonoBehaviour
 {
     public GameObject exclamationPrefab;
+    public GameObject interactablePrefab;
     public Transform centerEyeAnchor;
-
+    public Transform rightHandAnchor;
+    private int place = 0;
+    private int placedelay = 1000;
     private SocketIO client;
 
     // Public variables to set the maximum rotation in degrees
@@ -47,6 +50,36 @@ public class ObjectPlacer : MonoBehaviour
         await client.ConnectAsync();
         await client.EmitAsync("getStreamCode");
         StartCoroutine(ConnectAndEmit());
+    }
+
+    void Update()
+    {
+        // if (place == placedelay)
+        // {
+        //     int horizontalInput = 50; // get from socket
+        //     int verticalInput = 50; // get from socket
+
+        //     float horizontalRotation = MapRangeToDegrees(horizontalInput, maxHorizontalRotationDegrees);
+        //     float verticalRotation = MapRangeToDegrees(verticalInput, maxVerticalRotationDegrees);
+
+        //     Vector3 rayDirection = CalculateRayDirection(horizontalRotation, verticalRotation);
+        //     Ray ray = new Ray(transform.position, rayDirection);
+
+        //     if (Physics.Raycast(ray, out RaycastHit hit))
+        //     {
+        //         GameObject uiInstance = Instantiate(exclamationPrefab, hit.point + Vector3.up * 0.2f, Quaternion.identity);
+        //     }
+        // }
+        // place += 1;
+
+        if (OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.RTouch))
+        {
+            GameObject interactableInstance = Instantiate(interactablePrefab, rightHandAnchor.position, Quaternion.identity);
+        }
+        if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.RTouch))
+        {
+            GameObject exclamInstance = Instantiate(exclamationPrefab, rightHandAnchor.position, Quaternion.identity);
+        }
     }
     IEnumerator ConnectAndEmit()
     {
@@ -97,23 +130,4 @@ public class ObjectPlacer : MonoBehaviour
     }
 }
 
-//  void Update()
-//     {
-//         if (place == 500)
-//         {
-//             int horizontalInput = 50; // get from socket
-//             int verticalInput = 50; // get from socket
 
-//             float horizontalRotation = MapRangeToDegrees(horizontalInput, maxHorizontalRotationDegrees);
-//             float verticalRotation = MapRangeToDegrees(verticalInput, maxVerticalRotationDegrees);
-
-//             Vector3 rayDirection = CalculateRayDirection(horizontalRotation, verticalRotation);
-//             Ray ray = new Ray(transform.position, rayDirection);
-
-//             if (Physics.Raycast(ray, out RaycastHit hit))
-//             {
-//                 GameObject uiInstance = Instantiate(exclamationPrefab, hit.point + Vector3.up * 0.5f, Quaternion.identity);
-//             }
-//         }
-//         place += 1;
-//     }

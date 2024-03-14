@@ -66,23 +66,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5477749408508380018, guid: d8f22b347bd7a6c4eaf6dd00f8a7effc, type: 3}
       propertyPath: m_LocalScale.x
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -5477749408508380018, guid: d8f22b347bd7a6c4eaf6dd00f8a7effc, type: 3}
       propertyPath: m_LocalScale.y
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -5477749408508380018, guid: d8f22b347bd7a6c4eaf6dd00f8a7effc, type: 3}
       propertyPath: m_LocalScale.z
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -5477749408508380018, guid: d8f22b347bd7a6c4eaf6dd00f8a7effc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.056
+      value: -0.0258
       objectReference: {fileID: 0}
     - target: {fileID: -5477749408508380018, guid: d8f22b347bd7a6c4eaf6dd00f8a7effc, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5477749408508380018, guid: d8f22b347bd7a6c4eaf6dd00f8a7effc, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4683669308469848369, guid: d8f22b347bd7a6c4eaf6dd00f8a7effc, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -98,19 +102,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4083501151425157549, guid: d8f22b347bd7a6c4eaf6dd00f8a7effc, type: 3}
       propertyPath: m_LocalScale.x
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4083501151425157549, guid: d8f22b347bd7a6c4eaf6dd00f8a7effc, type: 3}
       propertyPath: m_LocalScale.y
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4083501151425157549, guid: d8f22b347bd7a6c4eaf6dd00f8a7effc, type: 3}
       propertyPath: m_LocalScale.z
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4083501151425157549, guid: d8f22b347bd7a6c4eaf6dd00f8a7effc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.086
+      value: 0.0349
+      objectReference: {fileID: 0}
+    - target: {fileID: 4083501151425157549, guid: d8f22b347bd7a6c4eaf6dd00f8a7effc, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -140,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destructionDelay: 30
-  scaleUpTime: 4
-  bobbingSpeed: 2
-  bobbingAmount: 0.005
+  scaleUpTime: 3
+  bobbingSpeed: 3
+  bobbingAmount: 0.0001
   particleEffectPrefab: {fileID: 4597325708459058972, guid: aa9a92da844d54441b176ea8e1b2eced, type: 3}

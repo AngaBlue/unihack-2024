@@ -13,7 +13,7 @@ public class AnimateIcons : MonoBehaviour
 
     private float scaleUpTimer = 0.0f;
     private Vector3 initialScale;
-    private Vector3 targetScale = Vector3.one; // Scale up to normal size
+    private Vector3 targetScale = Vector3.one * 0.1f; // Scale up to normal size
     private bool isScalingUp = true;
 
     public GameObject particleEffectPrefab;
